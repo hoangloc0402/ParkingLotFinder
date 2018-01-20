@@ -47,15 +47,6 @@ public class ActivityMain extends AppCompatActivity implements NavigationView.On
         ft.replace(R.id.place_holder_MainActivity, new FragmentHome());
         ft.commit();
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -77,6 +68,7 @@ public class ActivityMain extends AppCompatActivity implements NavigationView.On
             conf.setLocale(new Locale("vi"));
         res.updateConfiguration(conf, dm);
     }
+
     public void setTheme(){
 
     }
