@@ -11,24 +11,41 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.content.SharedPreferences;
 import android.view.MenuItem;
 import android.support.v4.app.FragmentTransaction;
+import android.content.res.Resources;
+import android.util.DisplayMetrics;
+import android.content.res.Configuration;
+import java.util.Locale;
 
-public class ActivityMain extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class ActivityMain extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    static SharedPreferences sharedPref;
+    static SharedPreferences.Editor prefEditor;
+    static int currentLang;
+    static int currentTheme;
+    int themeColor;
+    int headerImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sharedPref = getSharedPreferences(getString(R.string.preperences_file),this.MODE_PRIVATE);
+        prefEditor = sharedPref.edit();
+        setLanguage();
+        setTheme();
+
+        //themeColor = sharedPref.getInt("currentColor",R.color.colorPrimary);
+        //headerImage = sharedPref.getInt("currentHeader",R.drawable.header);
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.place_holder_MainActivity, new FragmentHome());
         ft.commit();
-
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -49,6 +66,20 @@ public class ActivityMain extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+    public void setLanguage(){
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        currentLang = sharedPref.getInt("currentLang", 0);
+        if (currentLang == 0)
+            conf.setLocale(new Locale("en"));
+        else if (currentLang == 1)
+            conf.setLocale(new Locale("vi"));
+        res.updateConfiguration(conf, dm);
+    }
+    public void setTheme(){
+
+    }
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
