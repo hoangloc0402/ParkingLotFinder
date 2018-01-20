@@ -139,7 +139,13 @@ public class ActivityMain extends AppCompatActivity implements NavigationView.On
 
         }
 
-        ParkingLotInfo haha = new ParkingLotInfo("268","Ly Thuong Kiet","11","10","HCM","0.5$","7AM:9PM","10000");
+        ParkingLotInfo haha = new ParkingLotInfo(getBaseContext(),"268","Ly Thuong Kiet","11","10","HCM","0.5$","7AM:9PM","10000");
+        listOfParkingLotInfo.add(haha);
+        listOfParkingLotInfo.add(haha);
+        listOfParkingLotInfo.add(haha);
+        listOfParkingLotInfo.add(haha);
+        listOfParkingLotInfo.add(haha);
+        listOfParkingLotInfo.add(haha);
         listOfParkingLotInfo.add(haha);
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();

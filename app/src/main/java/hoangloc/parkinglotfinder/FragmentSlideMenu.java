@@ -27,19 +27,17 @@ public class FragmentSlideMenu extends Fragment {
         // Required empty public constructor
     }
 
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         myView = inflater.inflate(R.layout.fragment_slide_menu, container, false);
-
         RecyclerView RCV = (RecyclerView) myView.findViewById(R.id.rv);
-        AdapterRCV arcv = new AdapterRCV(ActivityMain.listOfParkingLotInfo);
+        AdapterRCV arcv = new AdapterRCV(ActivityMain.listOfParkingLotInfo, getContext(), myView);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         RCV.setLayoutManager(mLayoutManager);
         RCV.setItemAnimator(new DefaultItemAnimator());
         RCV.setAdapter(arcv);
+
         return myView;
     }
 }

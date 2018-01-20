@@ -1,10 +1,14 @@
 package hoangloc.parkinglotfinder;
 
+import android.content.Context;
+import android.content.res.Resources;
+import hoangloc.parkinglotfinder.R;
 /**
  * Created by NguyenHoangLoc on 1/20/2018.
  */
 
 public class ParkingLotInfo {
+    private Context context;
     private String addressNumber;
     private String street;
     private String ward;
@@ -14,7 +18,8 @@ public class ParkingLotInfo {
     private String availableTime;
     private String remainingSlot;
 
-    ParkingLotInfo(String addr, String st, String w, String dist, String c, String p, String aTime, String rSlot) {
+    ParkingLotInfo(Context cont, String addr, String st, String w, String dist, String c, String p, String aTime, String rSlot) {
+        context = cont;
         addressNumber = addr;
         street = st;
         ward = w;
@@ -27,10 +32,10 @@ public class ParkingLotInfo {
 
     String getAddress(){
         return addressNumber + " "
-                + street + " " + R.string.street
-                + ", " + R.string.ward + ward
-                + ", " + R.string.district + district
-                + ", " + R.string.city;
+                + street + " " + context.getString(R.string.street)
+                + ", " + context.getString(R.string.ward) + ward
+                + ", " + context.getString(R.string.district) + district
+                + ", " + context.getString(R.string.city);
 }
     String getPrice(){
         return price;
