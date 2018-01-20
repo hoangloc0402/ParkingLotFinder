@@ -18,4 +18,14 @@
     <string name="copyright">Copyright © 2018 - SUNRISE Team - CSE - HCMUT</string>
     <string name="develop">Developed by SUNRISE Team</string>
 
+    <string name="language">Language</string>
+    <string name="theme">Theme</string>
+    <string name="selectlanguage">Select Language</string>
+    <string name="selecttheme">Select Theme</string>
+
+    <string name="decimal">Decimal separator</string>
+    <string name="them1">Cyan</string>
+    <string name="theme2">Brown</string>
+    <string name="theme3">Green</string>
+    <string name="them4">Midnightblue</string>
 </resources>

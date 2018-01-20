@@ -170,8 +170,8 @@ public class ActivityMain extends AppCompatActivity implements NavigationView.On
         setLanguage();
         setTheme();
 
-        //themeColor = sharedPref.getInt("currentColor",R.color.colorPrimary);
-        //headerImage = sharedPref.getInt("currentHeader",R.drawable.header);
+        themeColor = sharedPref.getInt("currentColor",R.color.colorPrimary);
+        headerImage = sharedPref.getInt("currentHeader",R.drawable.header);
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -196,9 +196,9 @@ public class ActivityMain extends AppCompatActivity implements NavigationView.On
         DisplayMetrics dm = res.getDisplayMetrics();
         Configuration conf = res.getConfiguration();
         currentLang = sharedPref.getInt("currentLang", 0);
-        if (currentLang == 0)
+        if (currentLang == 1)
             conf.setLocale(new Locale("en"));
-        else if (currentLang == 1)
+        else if (currentLang == 0)
             conf.setLocale(new Locale("vi"));
         res.updateConfiguration(conf, dm);
     }
