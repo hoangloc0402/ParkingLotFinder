@@ -3,6 +3,7 @@ package hoangloc.parkinglotfinder;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.app.Activity;
+import android.os.Build;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -63,46 +64,84 @@ public class ActivityMain extends AppCompatActivity implements NavigationView.On
     int themeColor;
     int headerImage;
     private long interval ;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        SupportMapFragment mapFragment = new com.google.android.gms.maps.SupportMapFragment();
-        ft.replace(R.id.place_holder_MainActivity, mapFragment);
-        ft.commit();
-        /*SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+    public boolean checkLocationPermission(){
 
-                .findFragmentById(R.id.map);*/
+        if (ContextCompat.checkSelfPermission(this,
 
-        mapFragment.getMapAsync(this);
+                Manifest.permission.ACCESS_FINE_LOCATION)
 
-        try {
+                != PackageManager.PERMISSION_GRANTED) {
 
-            if (ActivityCompat.checkSelfPermission(this, mPermission)
 
-                    != PackageManager.PERMISSION_GRANTED) {
 
-                ActivityCompat.requestPermissions(this, new String[]{mPermission},
+            // Asking user if explanation is needed
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+
+                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+
+
+
+                // Show an explanation to the user *asynchronously* -- don't block
+
+                // this thread waiting for the user's response! After the user
+
+                // sees the explanation, try again to request the permission.
+
+
+
+                //Prompt the user once explanation has been shown
+
+                ActivityCompat.requestPermissions(this,
+
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
 
                         REQUEST_CODE_PERMISSION);
 
 
 
-                // If any permission above not allowed by user, this condition will
 
-                //execute every time, else your else part will work
+
+            } else {
+
+                // No explanation needed, we can request the permission.
+
+                ActivityCompat.requestPermissions(this,
+
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+
+                        REQUEST_CODE_PERMISSION);
 
             }
 
-        } catch (Exception e) {
+            return false;
 
-            e.printStackTrace();
+        } else {
+
+            return true;
 
         }
 
-        FloatingActionButton fabLoc = (FloatingActionButton) findViewById(R.id.buttonGetLocation);
+    }
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+            checkLocationPermission();
+
+        }
+
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        SupportMapFragment mapFragment = new com.google.android.gms.maps.SupportMapFragment();
+        ft.replace(R.id.place_holder_MainActivity, mapFragment);
+        ft.commit();
+
+        mapFragment.getMapAsync(this);
+
+        FloatingActionButton fabLoc = (FloatingActionButton) findViewById(R.id.buttonGetLocation);
         fabLoc.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -286,14 +325,28 @@ public class ActivityMain extends AppCompatActivity implements NavigationView.On
 
         mMap.getUiSettings().setMyLocationButtonEnabled(false);
 
-        if (ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+            if (ContextCompat.checkSelfPermission(this,
+
+                    Manifest.permission.ACCESS_FINE_LOCATION)
+
+                    == PackageManager.PERMISSION_GRANTED) {
+
+                buildGoogleApiClient();
+
+                mMap.setMyLocationEnabled(true);
+
+            }
+
+        } else {
 
             buildGoogleApiClient();
 
-            mMap.setMyLocationEnabled(true); // cai nay de cho phep lay location, dat trong vong if de coi coi may da duoc cho quen su dung GPS hay chua
+            mMap.setMyLocationEnabled(true);
 
         }
-
 
     }
 }
