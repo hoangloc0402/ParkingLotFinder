@@ -139,7 +139,7 @@ public class ActivityMain extends AppCompatActivity implements NavigationView.On
 
         }
 
-        ParkingLotInfo haha = new ParkingLotInfo(getBaseContext(),"268","Ly Thuong Kiet","11","10","HCM","0.5$","7AM:9PM","10000");
+        ParkingLotInfo haha = new ParkingLotInfo(getBaseContext(),"268","Ly Thuong Kiet","11","10","HCM","0.5$","7AM:9PM","10000", "12346546", "123465798");
         listOfParkingLotInfo.add(haha);
         listOfParkingLotInfo.add(haha);
         listOfParkingLotInfo.add(haha);
@@ -154,7 +154,7 @@ public class ActivityMain extends AppCompatActivity implements NavigationView.On
         ft.commit();
 
         mapFragment.getMapAsync(this);
-
+/*
         FloatingActionButton fabLoc = (FloatingActionButton) findViewById(R.id.buttonGetLocation);
         fabLoc.setOnClickListener(new View.OnClickListener() {
 
@@ -176,7 +176,7 @@ public class ActivityMain extends AppCompatActivity implements NavigationView.On
 
             }
 
-        });
+        });*/
 
 
         sharedPref = getSharedPreferences(getString(R.string.preperences_file),this.MODE_PRIVATE);
@@ -271,8 +271,10 @@ public class ActivityMain extends AppCompatActivity implements NavigationView.On
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.place_holder_MainActivity, new FragmentAbout());
             ft.commit();
+        } else if (id == R.id.nav_share) {
+            Intent myIntent = new Intent(getApplicationContext(), ActivityInputRequestInfo.class);
+            startActivity(myIntent);
         }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

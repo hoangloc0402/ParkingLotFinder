@@ -22,7 +22,7 @@ import java.util.List;
 public class FragmentSlideMenu extends Fragment {
 
     private View myView;
-    
+    public static AdapterRCV ARCV;
     public FragmentSlideMenu() {
         // Required empty public constructor
     }
@@ -31,13 +31,16 @@ public class FragmentSlideMenu extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         myView = inflater.inflate(R.layout.fragment_slide_menu, container, false);
         RecyclerView RCV = (RecyclerView) myView.findViewById(R.id.rv);
-        AdapterRCV arcv = new AdapterRCV(ActivityMain.listOfParkingLotInfo, getContext(), myView);
+        AdapterRCV ARCV = new AdapterRCV(ActivityMain.listOfParkingLotInfo, getContext(), myView);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         RCV.setLayoutManager(mLayoutManager);
         RCV.setItemAnimator(new DefaultItemAnimator());
-        RCV.setAdapter(arcv);
+        RCV.setAdapter(ARCV);
 
         return myView;
+    }
+    public static void update(){
+        ARCV.notifyDataSetChanged();
     }
 }

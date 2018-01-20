@@ -24,14 +24,7 @@
         android:id="@+id/include"
         layout="@layout/content_activity_main" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/buttonGetLocation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        app:layout_anchor="@+id/include"
-        app:layout_anchorGravity="right|bottom"
-        app:srcCompat="@android:drawable/ic_menu_mylocation" />
+
 
 
 </android.support.design.widget.CoordinatorLayout>

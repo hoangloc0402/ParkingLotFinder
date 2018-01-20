@@ -20,7 +20,7 @@ public class AdapterSpinner extends BaseAdapter {
     int imgs[];
     String[] text;
     LayoutInflater inflater;
-    List<MyTheme> themes;
+    //List<MyTheme> themes;
     public final static int THEME = 1;
     int type = 0;
 
@@ -31,17 +31,17 @@ public class AdapterSpinner extends BaseAdapter {
         inflater = (LayoutInflater.from(applicationContext));
     }
 
-    public AdapterSpinner(Context applicationContext, List<MyTheme> themes) {
+    public AdapterSpinner(Context applicationContext) {
         this.context = applicationContext;
-        this.themes = themes;
+        //this.themes = themes;
         inflater = (LayoutInflater.from(applicationContext));
         this.type = THEME;
     }
 
     @Override
     public int getCount() {
-        if(type==THEME) return themes.size();
-        else return text.length;
+        //if(type==THEME) return themes.size();
+         return text.length;
     }
 
     @Override
@@ -51,8 +51,8 @@ public class AdapterSpinner extends BaseAdapter {
 
     @Override
     public long getItemId(int i) {
-        if (type==THEME) return themes.get(i).id;
-        else return 0;
+        //if (type==THEME) return themes.get(i).id;
+        return 0;
     }
 
     @Override
@@ -60,16 +60,16 @@ public class AdapterSpinner extends BaseAdapter {
         view = inflater.inflate(R.layout.layout_spinner, null);
         ImageView icon = (ImageView) view.findViewById(R.id.imageView);
         TextView names = (TextView) view.findViewById(R.id.textView);
-
+/*
         if(type==THEME){
             names.setText(themes.get(i).name);
             icon.setImageResource(R.drawable.ic_theme);
             icon.setColorFilter(ContextCompat.getColor(context, themes.get(i).color));
         }
-        else {
+        else {*/
             names.setText(text[i]);
             icon.setImageResource(imgs[i]);
-        }
+        //}
         return view;
     }
 }

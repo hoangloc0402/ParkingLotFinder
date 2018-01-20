@@ -17,8 +17,10 @@ public class ParkingLotInfo {
     private String price;
     private String availableTime;
     private String remainingSlot;
+    private String longitude;
+    private String latitude;
 
-    ParkingLotInfo(Context cont, String addr, String st, String w, String dist, String c, String p, String aTime, String rSlot) {
+    ParkingLotInfo(Context cont, String addr, String st, String w, String dist, String c, String p, String aTime, String rSlot, String lo, String la) {
         context = cont;
         addressNumber = addr;
         street = st;
@@ -28,6 +30,8 @@ public class ParkingLotInfo {
         price = p;
         availableTime = aTime;
         remainingSlot = rSlot;
+        longitude = lo;
+        latitude = la;
     }
 
     String getAddress(){
