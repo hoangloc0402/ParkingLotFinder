@@ -136,7 +136,7 @@ public class ActivityMain extends AppCompatActivity implements NavigationView.On
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         SupportMapFragment mapFragment = new com.google.android.gms.maps.SupportMapFragment();
-        ft.replace(R.id.place_holder_MainActivity, mapFragment);
+        ft.replace(R.id.map, mapFragment);
         ft.commit();
 
         mapFragment.getMapAsync(this);
