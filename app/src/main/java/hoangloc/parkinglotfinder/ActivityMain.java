@@ -37,6 +37,9 @@ import android.support.v4.app.FragmentTransaction;
 import android.content.res.Resources;
 import android.util.DisplayMetrics;
 import android.content.res.Configuration;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 public class ActivityMain extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
@@ -64,6 +67,8 @@ public class ActivityMain extends AppCompatActivity implements NavigationView.On
     int themeColor;
     int headerImage;
     private long interval ;
+    public static ArrayList<ParkingLotInfo> listOfParkingLotInfo = new ArrayList<ParkingLotInfo>();
+
     public boolean checkLocationPermission(){
 
         if (ContextCompat.checkSelfPermission(this,
@@ -133,6 +138,9 @@ public class ActivityMain extends AppCompatActivity implements NavigationView.On
             checkLocationPermission();
 
         }
+
+        ParkingLotInfo haha = new ParkingLotInfo("268","Ly Thuong Kiet","11","10","HCM","0.5$","7AM:9PM","10000");
+        listOfParkingLotInfo.add(haha);
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         SupportMapFragment mapFragment = new com.google.android.gms.maps.SupportMapFragment();

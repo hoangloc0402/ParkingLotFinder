@@ -16,7 +16,7 @@
             android:layout_height="wrap_content">
             <include
                 android:id="@+id/slide"
-                layout="@layout/siding_menu" />
+                layout="@layout/layout_siding_menu" />
         </LinearLayout>
 
     </FrameLayout>

@@ -19,13 +19,11 @@
     <string name="develop">Developed by SUNRISE Team</string>
 
     <string name="language">Language</string>
-    <string name="theme">Theme</string>
     <string name="selectlanguage">Select Language</string>
-    <string name="selecttheme">Select Theme</string>
 
-    <string name="decimal">Decimal separator</string>
-    <string name="them1">Cyan</string>
-    <string name="theme2">Brown</string>
-    <string name="theme3">Green</string>
-    <string name="them4">Midnightblue</string>
+
+    <string name="street">St</string>
+    <string name="ward">W.</string>
+    <string name="district">Dist.</string>
+    <string name="city">HCM City</string>
 </resources>
