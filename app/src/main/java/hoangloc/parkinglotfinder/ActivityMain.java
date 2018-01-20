@@ -1,9 +1,11 @@
 package hoangloc.parkinglotfinder;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.view.View;
+import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -43,9 +45,9 @@ public class ActivityMain extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.place_holder_MainActivity, new FragmentHome());
-        ft.commit();
+        //FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        //ft.replace(R.id.place_holder_MainActivity, new FragmentHome());
+        //ft.commit();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -107,17 +109,24 @@ public class ActivityMain extends AppCompatActivity implements NavigationView.On
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
-            ft.replace(R.id.place_holder_MainActivity, new FragmentHome());
+            Intent myIntent = new Intent(getApplicationContext(), ActivityMain.class);
+            //myIntent.putExtra("key", "haha"); //Optional parameters
+            startActivity(myIntent);
+
         } else if (id == R.id.nav_setting) {
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.place_holder_MainActivity, new FragmentSetting());
+            ft.commit();
         } else if (id == R.id.nav_about) {
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.place_holder_MainActivity, new FragmentAbout());
+            ft.commit();
         }
-        ft.commit();
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

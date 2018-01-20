@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ParkingLotFinder</string>
+    <string name="app_name">Parking Lot Finder</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -9,7 +9,13 @@
     <string name="parkinglotfinder">ParkingLot Finder</string>
     <string name="home">Home</string>
     <string name="setting">Settings</string>
-    <string name="about">About</string>
+    <string name="about">About Us</string>
     <string name="title_activity_maps">Map</string>
+
+    <string name="allrightreserved">All Right Reserved</string>
+    <string name="version">Version 1.0</string>
+    <string name="visitus">Visit Us</string>
+    <string name="copyright">Copyright © 2018 - SUNRISE Team - CSE - HCMUT</string>
+    <string name="develop">Developed by SUNRISE Team</string>
 
 </resources>
