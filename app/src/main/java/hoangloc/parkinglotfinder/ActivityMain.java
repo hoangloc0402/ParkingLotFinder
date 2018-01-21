@@ -6,14 +6,22 @@ import android.app.Activity;
 import android.os.Build;
 import android.location.Location;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+
+import com.directions.route.AbstractRouting;
+import com.directions.route.Route;
+import com.directions.route.RouteException;
+import com.directions.route.Routing;
+import com.directions.route.RoutingListener;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -37,12 +45,15 @@ import android.support.v4.app.FragmentTransaction;
 import android.content.res.Resources;
 import android.util.DisplayMetrics;
 import android.content.res.Configuration;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 public class ActivityMain extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
+        RoutingListener,
+
         OnMapReadyCallback,
 
         GoogleApiClient.ConnectionCallbacks,
@@ -57,7 +68,9 @@ public class ActivityMain extends AppCompatActivity implements NavigationView.On
     private GoogleApiClient client;
     private LocationRequest locationRequest;
     public FloatingActionButton fab;
-    LatLng latLng;
+    static LatLng latLng;
+    static LatLng destLatLng;
+    static boolean reDraw = false;
     private static final int REQUEST_CODE_PERMISSION = 2;
     String mPermission = Manifest.permission.ACCESS_FINE_LOCATION;
     static SharedPreferences sharedPref;
@@ -67,8 +80,9 @@ public class ActivityMain extends AppCompatActivity implements NavigationView.On
     int themeColor;
     int headerImage;
     private long interval ;
+    private ArrayList<Polyline> polylines = new ArrayList<>();
     public static ArrayList<ParkingLotInfo> listOfParkingLotInfo = new ArrayList<ParkingLotInfo>();
-
+    private static final int[] COLORS = new int[]{R.color.a1,R.color.a2,R.color.a3,R.color.a4,R.color.a5};
     public boolean checkLocationPermission(){
 
         if (ContextCompat.checkSelfPermission(this,
@@ -179,8 +193,15 @@ public class ActivityMain extends AppCompatActivity implements NavigationView.On
         });*/
 
 
+
         sharedPref = getSharedPreferences(getString(R.string.preperences_file),this.MODE_PRIVATE);
         prefEditor = sharedPref.edit();
+
+        //prefEditor.putString("id",id);
+        //prefEditor.putString("latitude",Double.toString(latLng.latitude));
+       // prefEditor.putString("longitude",Double.toString(latLng.longitude));
+        //prefEditor.commit();
+
         setLanguage();
         setTheme();
 
@@ -316,6 +337,12 @@ public class ActivityMain extends AppCompatActivity implements NavigationView.On
         double longitude = location.getLongitude();
 
         latLng = new LatLng(latitude,longitude);
+
+        String id = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+        prefEditor.putString("id",id);
+        prefEditor.putString("latitude",Double.toString(latLng.latitude));
+        prefEditor.putString("longitude",Double.toString(latLng.longitude));
+        prefEditor.commit();
     }
     private void buildGoogleApiClient() {
 
@@ -339,7 +366,7 @@ public class ActivityMain extends AppCompatActivity implements NavigationView.On
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        mMap.getUiSettings().setMyLocationButtonEnabled(false);
+        mMap.getUiSettings().setMyLocationButtonEnabled(true);
 
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -354,6 +381,12 @@ public class ActivityMain extends AppCompatActivity implements NavigationView.On
 
                 mMap.setMyLocationEnabled(true);
 
+                if (reDraw) {
+                    reDraw = false;
+                    //Toast.makeText(this, Double.toString(latLng.latitude), Toast.LENGTH_LONG).show();
+                    getRoute(latLng,destLatLng);
+                }
+
             }
 
         } else {
@@ -362,7 +395,125 @@ public class ActivityMain extends AppCompatActivity implements NavigationView.On
 
             mMap.setMyLocationEnabled(true);
 
+            if (reDraw) {
+                reDraw = false;
+                //Toast.makeText(this, Double.toString(latLng.latitude), Toast.LENGTH_LONG).show();
+                getRoute(latLng,destLatLng);
+            }
         }
+
+    }
+
+    public void getRoute(LatLng start, LatLng end){
+        //Toast.makeText(this, Double.toString(start.latitude), Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, Double.toString(end.latitude), Toast.LENGTH_LONG).show();
+        Routing routing = new Routing.Builder()
+
+                .travelMode(AbstractRouting.TravelMode.DRIVING)
+
+                .withListener(this)
+
+                .alternativeRoutes(true)
+
+                .waypoints(start, end)
+
+                .build();
+
+        routing.execute();
+    }
+
+    @Override
+    public void onRoutingFailure(RouteException e) {
+        if(e != null) {
+
+            Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+
+        }else {
+
+            Toast.makeText(this, "Something went wrong, Try again", Toast.LENGTH_SHORT).show();
+
+        }
+    }
+
+    @Override
+    public void onRoutingStart() {
+
+    }
+
+    @Override
+    public void onRoutingSuccess(ArrayList<Route> route, int shortestRouteIndex){
+        CameraUpdate center = CameraUpdateFactory.newLatLng(latLng);
+        CameraUpdate zoom = CameraUpdateFactory.zoomTo(16);
+
+        mMap.moveCamera(center);
+
+        if(polylines.size()>0) {
+
+            for (Polyline poly : polylines) {
+
+                poly.remove();
+
+            }
+
+        }
+
+
+
+        polylines = new ArrayList<>();
+
+        //add route(s) to the map.
+
+        for (int i = 0; i <route.size(); i++) {
+
+
+
+            //In case of more than 5 alternative routes
+
+            int colorIndex = i % COLORS.length;
+
+
+
+            PolylineOptions polyOptions = new PolylineOptions();
+
+            polyOptions.color(getResources().getColor(COLORS[colorIndex]));
+
+            polyOptions.width(10 + i * 3);
+
+            polyOptions.addAll(route.get(i).getPoints());
+
+            Polyline polyline = mMap.addPolyline(polyOptions);
+
+            polylines.add(polyline);
+
+
+
+            Toast.makeText(getApplicationContext(),"Route "+ (i+1) +": distance - "+ route.get(i).getDistanceValue()+": duration - "+ route.get(i).getDurationValue(),Toast.LENGTH_SHORT).show();
+
+        }
+
+
+
+        // Start marker
+
+        MarkerOptions options = new MarkerOptions();
+
+        options.position(latLng);
+
+        mMap.addMarker(options);
+
+
+
+        // End marker
+
+        options = new MarkerOptions();
+
+        options.position(destLatLng);
+
+        mMap.addMarker(options);
+    }
+
+    @Override
+    public void onRoutingCancelled() {
 
     }
 }

@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.util.ArrayList;
@@ -69,9 +70,9 @@ public class AdapterRCV extends RecyclerView.Adapter<AdapterRCV.ViewHolder> {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                //slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
+                ActivityMain.destLatLng = new LatLng(10.757547, 106.659386);
+                ActivityMain.reDraw = true;
                 Intent myIntent = new Intent(context, ActivityMain.class);
-                //myIntent.putExtra("key", "haha"); //Optional parameters
                 context.startActivity(myIntent);
             } });
 

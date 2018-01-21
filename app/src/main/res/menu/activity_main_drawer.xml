@@ -19,12 +19,12 @@
 
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="Request For Location">
         <menu>
             <item
                 android:id="@+id/nav_share"
                 android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
+                android:title="Input Info" />
 
         </menu>
     </item>
